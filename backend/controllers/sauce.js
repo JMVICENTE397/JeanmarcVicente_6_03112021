@@ -1,6 +1,5 @@
 const Sauce = require('../models/Sauce');
 const fs = require('fs');
-const { updateOne } = require('../models/Sauce');
 
 exports.createSauce = (req, res, next) => {
   console.log(req.body.sauce);
