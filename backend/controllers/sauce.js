@@ -1,19 +1,22 @@
+// IMPORTS
 const Sauce = require('../models/Sauce');
 const fs = require('fs');
 
+// CREER UNE SAUCE
 exports.createSauce = (req, res, next) => {
-  console.log(req.body.sauce);
+  console.log('Sauce créée :', req.body.sauce);
   const sauceObject = JSON.parse(req.body.sauce);
   delete sauceObject._id;
   const sauce = new Sauce({
     ...sauceObject,
     imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
-  });
+  })
   sauce.save()
     .then(() => res.status(201).json({ message: 'Objet enregistré !'}))
     .catch(error => res.status(400).json({ error }));
 };
 
+// CREER OU SUPPRIMER UN LIKE OU UN DISLIKE
 exports.likeSauce = (req, res, next) => {
   if (req.body.like === 1) {  // J'aime
       Sauce.updateOne( {_id:req.params.id}, { $push: { usersLiked: req.body.userId }, $inc: { likes: +1 } })
@@ -40,12 +43,14 @@ exports.likeSauce = (req, res, next) => {
   }
 };
 
+// INTERROGER UNE SAUCE
 exports.getOneSauce = (req, res, next) => {
   Sauce.findOne({ _id: req.params.id })
     .then(sauce => res.status(200).json(sauce))
     .catch(error => res.status(404).json({ error }));
 };
 
+// MODIFIER UEN SAUCE
 exports.modifySauce = (req, res, next) => {
   const sauceObject = req.file ?
     {
@@ -57,6 +62,7 @@ exports.modifySauce = (req, res, next) => {
     .catch(error => res.status(400).json({ error }));
 };
 
+// EFFACER UNE SAUCE
 exports.deleteSauce = (req, res, next) => {
   Sauce.findOne({ _id: req.params.id })
     .then(sauce => {
@@ -70,6 +76,7 @@ exports.deleteSauce = (req, res, next) => {
     .catch(error => res.status(500).json({ error }));
 };
 
+// INTERROGER TOUTES LES SAUCES
 exports.getAllSauces = (req, res, next) => {
   Sauce.find()
     .then(sauces => res.status(200).json(sauces))

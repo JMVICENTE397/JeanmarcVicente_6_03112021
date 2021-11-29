@@ -1,10 +1,9 @@
-// VARIABLES D'ENVIRONNEMENT
-require('dotenv').config();
-
 // IMPORTS
+require('dotenv').config();
 const http = require('http');
 const app = require('./app');
 
+// CONFIGURATION DU PORT
 const normalizePort = val => {
   const port = parseInt(val, 10);
   if (isNaN(port)) { return val; }
@@ -42,4 +41,5 @@ server.on('listening', () => {
   console.log('Listening on ' + bind);
 });
 
+// ECOUTE DU PORT
 server.listen(port);

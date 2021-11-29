@@ -1,10 +1,13 @@
+// IMPORTS
 const express = require('express');
 const router = express.Router();
-const validatePassword = require('../middleware/password-validator-config');
-const limiter = require('../middleware/limiter-config');
+const checkPassword = require('../middleware/password-validator');
+const limit = require('../middleware/limiter');
 const userCtrl = require('../controllers/user');
 
-router.post('/signup', validatePassword, userCtrl.signup);
-router.post('/login', limiter.max, userCtrl.login);
+// ROUTES
+router.post('/signup', checkPassword, userCtrl.signup);
+router.post('/login', limit.max, userCtrl.login);
 
+// EXPORT
 module.exports = router;

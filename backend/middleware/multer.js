@@ -1,5 +1,7 @@
+// IMPORT
 const multer = require('multer');
 
+// TYPES DE FICHIERS ACCEPTES
 const MIME_TYPES = {
   'image/jpg': 'jpg',
   'image/jpeg': 'jpg',
@@ -7,6 +9,7 @@ const MIME_TYPES = {
   'image/webp': 'webp'
 };
 
+// CONFIGURATION
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {
     callback(null, 'images');
@@ -18,4 +21,5 @@ const storage = multer.diskStorage({
   }
 });
 
+// EXPORT
 module.exports = multer({storage: storage}).single('image');
