@@ -1,14 +1,26 @@
 // IMPORTS
 require('dotenv').config();
 const bcrypt = require('bcrypt');
+const maskData = require('maskdata');
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
+const e = require('express');
+
+// CONFIGURATION : masquer les données
+// const emailMask2options = {
+//   maskWith: "*",
+//   unmaskedStartCharactersBeforeAt: 5,
+//   unmaskedEndCharactersAfterAt: 3,
+//   maskAtTheRate: false
+// };
 
 // INSCRIPTION
 exports.signup = (req, res, next) => {
   bcrypt.hash(req.body.password, 10)
     .then(hash => {
       const user = new User({
+        // OPTION : masquer les données
+        // email: maskData.maskEmail2(req.body.email, emailMask2options),
         email: req.body.email,
         password: hash
       });
